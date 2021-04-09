@@ -20,9 +20,7 @@ const signOut = () => {
           <input
             required
             value={todo}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setTodo(e.target.value)
-            }
+            onChange={(e) => setTodo(e.target.value)}
             placeholder="What's Next?"
           />
           <button type="submit">Add</button>
