@@ -13,6 +13,11 @@ const Todos = () => {
   const onSubmitTodo = (event) => {
     event.preventDefault();
     setTodo("");
+    todosRef.add({
+      text: todo,
+      complete: false,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
   };
 
   return (
