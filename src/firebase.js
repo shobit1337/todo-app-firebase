@@ -13,3 +13,9 @@ firebase.initializeApp({
   appId: "1:325578282408:web:f5c2a9b76cd43e2ccaf99d",
   measurementId: "G-MTSPPZPW5L",
 });
+
+export const auth = firebase.auth();
+export const firestore = firebase.firestore();
+export const functions = firebase.functions();
+
+export default firebase;
