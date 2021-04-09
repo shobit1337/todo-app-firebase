@@ -1,10 +1,15 @@
+import "./App.css";
 import { useState } from "react";
+import firebase, { auth, firestore, functions } from "./firebase";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+
 const Todos = () => {
   const [todo, setTodo] = useState("");
-  const todos = [];
-};
+  const todosRef = firestore.collection(`users/${auth.currentUser.uid}/todos`);
+  const [todos] = useCollectionData(todosRef, { idField: "id" });
 
-const signOut = () => {
+  const signOut = () => auth.signOut();
+
   const onSubmitTodo = (event) => {
     event.preventDefault();
     setTodo("");
@@ -13,7 +18,7 @@ const signOut = () => {
   return (
     <>
       <header>
-        <button onClick={SignOut}>Sign Out</button>
+        <button onClick={signOut}>Sign Out</button>
       </header>
       <main>
         <form onSubmit={onSubmitTodo}>

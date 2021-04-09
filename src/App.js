@@ -1,6 +1,11 @@
 import "./App.css";
+import Todos from "./Todos";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "./firebase";
+import firebase from "firebase";
 
-const sighInWithGoogle = () => {};
+const sighInWithGoogle = () =>
+  auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
 
 const SignIn = () => (
   <main>
@@ -9,7 +14,7 @@ const SignIn = () => (
 );
 
 const App = () => {
-  const user = "test";
-  return user ? <Todo /> : <SignIn />;
+  const [user] = useAuthState(auth);
+  return user ? <Todos /> : <SignIn />;
 };
 export default App;
