@@ -1,6 +1,7 @@
 import "./App.css";
 import { useState } from "react";
-import firebase, { auth, firestore, functions } from "./firebase";
+import { auth, firestore, functions } from "./firebase";
+import firebase from "firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
 const addTodo = functions.httpsCallable("addTodo");
