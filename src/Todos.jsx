@@ -3,6 +3,8 @@ import { useState } from "react";
 import firebase, { auth, firestore, functions } from "./firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
+const addTodo = functions.httpsCallable("addTodo");
+
 const Todos = () => {
   const [todo, setTodo] = useState("");
   const todosRef = firestore.collection(`users/${auth.currentUser.uid}/todos`);
@@ -13,7 +15,7 @@ const Todos = () => {
   const onSubmitTodo = (event) => {
     event.preventDefault();
     setTodo("");
-    todosRef.add({
+    addTodo({
       text: todo,
       complete: false,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -35,15 +37,18 @@ const Todos = () => {
           />
           <button type="submit">Add</button>
         </form>
-        {todos && todos.map(() => <Todo {...todo} />)}
+        {todos && todos.map((todo) => <Todo key={todo.id} {...todo} />)}
       </main>
     </>
   );
 };
 
 const Todo = ({ id, complete, text }) => {
-  const onCompleteTodo = (id, complete) => {};
-  const onDeleteTodo = (id) => {};
+  const todosRef = firestore.collection(`users/${auth.currentUser.uid}/todos`);
+  const onCompleteTodo = (id, complete) =>
+    todosRef.doc(id).set({ complete: !complete }, { merge: true });
+
+  const onDeleteTodo = (id) => todosRef.doc(id).delete();
 
   return (
     <div key={id} className="todo">
